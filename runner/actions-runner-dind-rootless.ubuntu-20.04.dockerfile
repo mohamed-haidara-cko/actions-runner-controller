@@ -135,8 +135,9 @@ RUN echo "PATH=${PATH}" > /etc/environment \
 USER runner
 
 # This will install docker under $HOME/bin according to the content of the script
+COPY install-rootless.sh /runner/install-rootless.sh
 RUN export SKIP_IPTABLES=1 \
-    && curl -fsSL https://get.docker.com/rootless | sh \
+    && sh /runner/install-rootless.sh \
     && /home/runner/bin/docker -v
 
 RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
